@@ -131,9 +131,7 @@ export class HomePage {
         // Validates elements of PLACE command
         if (this.command.substr(0, 5) === 'PLACE') {
             if (this.command.substr(5, 1) === ' ') {
-                if (!this.checkPositionElements(this.breakDownPlace())) {
-                    return false;
-                }
+                return this.checkPositionElements(this.breakDownPlace());
             } else {
                 this.addToReport('Invalid: ' + this.command);
                 return false;
