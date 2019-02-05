@@ -8,8 +8,8 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9-browsers
-        environment:
-          CHROME_BIN: "/usr/bin/google-chrome karma start --single-run"
+        # environment:
+        #   CHROME_BIN: "/usr/bin/google-chrome"
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -32,7 +32,7 @@ jobs:
 
       - run: npm rebuild node-sass
 
-      - run: npm install -g karma
+      # - run: npm install -g karma
         
       - save_cache:
           paths:
@@ -40,7 +40,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run:
-          name: Run unit tests with karma
-          command: npm test
+      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+      # - run:
+      #     name: Run unit tests with karma
+      #     command: npm test
       #- run: npm test
