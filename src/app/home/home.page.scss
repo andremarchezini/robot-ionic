@@ -1,0 +1,29 @@
+.wrapper {
+    padding-top: 40px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.results {
+    padding: 20px 10px;
+    min-height: 400px;
+    max-height: 400px;
+    border: 1px solid #e2e2e2;
+    color: #6b6a6a;
+    overflow: hidden;
+}
+
+.commands {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.commands::-webkit-scrollbar {
+    width: 5px;
+    height: 4px;
+    background-color: #e2e2e2;
+}
+
+.commands::-webkit-scrollbar-thumb {
+    background: #6b6a6a;
+}

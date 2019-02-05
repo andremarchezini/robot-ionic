@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title text-center>
+            Toy Robot Simulator
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="wrapper">
+        <div class="results">
+            <p><b>Report:</b></p>
+            <div class="commands" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+                <div>
+                    <p *ngFor="let result of results">{{result}}</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <ion-item>
+                <ion-input type="text" placeholder="Please enter a command here..." [(ngModel)]="command"
+                    (keydown.enter)="run()"></ion-input>
+                <ion-button item-right shape="round" color="primary" (click)="run()">
+                    <ion-icon name="ios-play"></ion-icon>Run
+                </ion-button>
+            </ion-item>
+        </div>
+    </div>
+</ion-content>
