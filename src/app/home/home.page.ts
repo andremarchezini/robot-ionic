@@ -23,17 +23,22 @@ export class HomePage {
     public run() {
 
         this.command = this.command.toLocaleUpperCase();
-        let executed = false;
 
         if (!this.validateCommand()) {
             this.command = null;
             return;
         }
 
-        if (this.command.substr(0, 5) === 'PLACE') {
-            if (this.place()) {
-                executed = true;
-            }
+        this.executeCommand();
+
+        this.command = null;
+    }
+
+    private executeCommand() {
+        let executed = false;
+
+        if (this.command.substr(0, 5) === 'PLACE' && this.place()) {
+            executed = true;
         }
 
         if (this.command.substr(0, 4) === 'LEFT') {
@@ -60,9 +65,7 @@ export class HomePage {
             this.addToReport('=> Output:' + this.robot.x + ',' + this.robot.y + ',' + this.robot.facing);
         }
 
-        this.command = null;
     }
-
 
     // Validates the command entered by the user
     public validateCommand(): boolean {
