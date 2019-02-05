@@ -6,10 +6,8 @@ module.exports = function (config) {
         basePath: '',
         frameworks: ['jasmine', '@angular-devkit/build-angular'],
         plugins: [
-            require('karma-jasmine'),
-            require('karma-chrome-launcher'),
-            require('karma-jasmine-html-reporter'),
-            require('karma-coverage-istanbul-reporter'),
+            require('karma-jasmine'), require('karma-chrome-launcher'),
+            require('karma-jasmine-html-reporter'), require('karma-coverage-istanbul-reporter'),
             require('@angular-devkit/build-angular/plugins/karma')
         ],
         client: {
@@ -21,16 +19,10 @@ module.exports = function (config) {
             fixWebpackSourcePaths: true
         },
         reporters: ['progress', 'kjhtml'],
-        port: 9876,
-        colors: true,
-        logLevel: config.LOG_INFO,
-        autoWatch: true,
+        port: 9876, colors: true, logLevel: config.LOG_INFO, autoWatch: true,
         browsers: ['Chrome'],
         customLaunchers: {
-            ChromeNoSandbox: {
-                base: 'Chrome',
-                flags: ['--no-sandbox']
-            }
+            ChromeNoSandbox: { base: 'Chrome', flags: ['--no-sandbox'] }
         },
         singleRun: true
     });

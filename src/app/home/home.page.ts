@@ -30,16 +30,7 @@ export class HomePage {
         }
 
         if (this.command.substr(0, 5) === 'PLACE') {
-            const position_elements = this.breakDownPlace();
-            const x = parseInt(position_elements[0], 10);
-            const y = parseInt(position_elements[1], 10);
-            const facing = FacesEnum[position_elements[2]];
-            if (this.safeToPlace(x, y)) {
-                this.robot.place(x, y, facing);
-                this.addToReport(this.command);
-            } else {
-                this.addToReport('Unsafe: ' + this.command);
-            }
+            this.place();
         }
 
         if (this.command.substr(0, 4) === 'LEFT') {
@@ -66,6 +57,7 @@ export class HomePage {
         this.command = null;
     }
 
+
     // Validates the command entered by the user
     public validateCommand(): boolean {
 
@@ -75,6 +67,19 @@ export class HomePage {
         }
 
         return true;
+    }
+
+    private place() {
+        const position_elements = this.breakDownPlace();
+        const x = parseInt(position_elements[0], 10);
+        const y = parseInt(position_elements[1], 10);
+        const facing = FacesEnum[position_elements[2]];
+        if (this.safeToPlace(x, y)) {
+            this.robot.place(x, y, facing);
+            this.addToReport(this.command);
+        } else {
+            this.addToReport('Unsafe: ' + this.command);
+        }
     }
 
     private checkPlaceCommand() {
@@ -114,19 +119,21 @@ export class HomePage {
 
     private checkElementsPlaceCommand() {
         // Validates elements of PLACE command
-        if (this.command.substr(0, 6) === 'PLACE ') {
-            const position_elements = this.breakDownPlace();
-            if (position_elements.length !== 3) {
+        if (this.command.substr(0, 5) === 'PLACE') {
+            if (this.command.substr(5, 1) === ' ') {
+                const position_elements = this.breakDownPlace();
+                if (position_elements.length !== 3) {
+                    this.addToReport('Invalid: ' + this.command);
+                    return false;
+                } else {
+                    if (!this.checkElements(position_elements)) {
+                        return false;
+                    }
+                }
+            } else {
                 this.addToReport('Invalid: ' + this.command);
                 return false;
-            } else {
-                if (!this.checkElements(position_elements)) {
-                    return false;
-                }
             }
-        } else {
-            this.addToReport('Invalid: ' + this.command);
-            return false;
         }
         return true;
     }
