@@ -8,10 +8,6 @@ describe('HomePage', () => {
         component = new HomePage();
     });
 
-    it('this will break', () => {
-        expect(true).toBeFalsy();
-    });
-
     it('test if blocks unrecognised commands', () => {
         component.command = 'EXIT';
         expect(component.validateCommand()).toBeFalsy();
