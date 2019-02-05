@@ -9,7 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:8.9-browsers
         environment:
-          CHROME_BIN: "/usr/bin/google-chrome"
+          CHROME_BIN: "/usr/bin/google-chrome karma start --single-run"
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
