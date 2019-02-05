@@ -28,6 +28,10 @@ jobs:
 
       - run: npm install
 
+      - run: 
+        name: rebuild node-sass
+        command: npm rebuild node-sass
+        
       - save_cache:
           paths:
             - node_modules
