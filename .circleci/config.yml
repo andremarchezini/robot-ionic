@@ -40,9 +40,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
-      # - run:
-      #     name: Run unit tests with karma
-      #     command: npm test
+      # - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+      # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+      - run:
+          name: Run unit tests with karma
+          command: npm test
       #- run: npm test
