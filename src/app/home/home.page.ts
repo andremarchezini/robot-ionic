@@ -23,6 +23,7 @@ export class HomePage {
     public run() {
 
         this.command = this.command.toLocaleUpperCase();
+        let executed = false;
 
         if (!this.validateCommand()) {
             this.command = null;
@@ -30,27 +31,32 @@ export class HomePage {
         }
 
         if (this.command.substr(0, 5) === 'PLACE') {
-            this.place();
+            if (this.place()) {
+                executed = true;
+            }
         }
 
         if (this.command.substr(0, 4) === 'LEFT') {
             this.robot.rotateLeft();
-            this.addToReport(this.command);
+            executed = true;
         }
 
         if (this.command.substr(0, 5) === 'RIGHT') {
             this.robot.rotateRight();
-            this.addToReport(this.command);
+            executed = true;
         }
 
         if (this.command.substr(0, 4) === 'MOVE') {
             this.robot.move();
+            executed = true;
+        }
+
+        if (executed) {
             this.addToReport(this.command);
         }
 
         if (this.command.substr(0, 6) === 'REPORT') {
             this.robot.report();
-            this.addToReport(this.command);
             this.addToReport('=> Output:' + this.robot.x + ',' + this.robot.y + ',' + this.robot.facing);
         }
 
@@ -76,9 +82,10 @@ export class HomePage {
         const facing = FacesEnum[position_elements[2]];
         if (this.safeToPlace(x, y)) {
             this.robot.place(x, y, facing);
-            this.addToReport(this.command);
+            return true;
         } else {
             this.addToReport('Unsafe: ' + this.command);
+            return false;
         }
     }
 
