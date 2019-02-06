@@ -5,6 +5,8 @@
 version: 2
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: db8357071dbb10baa664dc536130ee05a50dda77a8e820664458ccd76ed4cd9d
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9-browsers
@@ -45,4 +47,9 @@ jobs:
       - run:
           name: Run unit tests with karma
           command: npm test
+          # notify Code Climate of a pending test report using `before-build`
+            ./cc-test-reporter before-build
+            sudo vendor/bin/phpunit --coverage-clover clover.xml
+          # upload test report to Code Climate using `after-build`
+            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
       #- run: npm test
