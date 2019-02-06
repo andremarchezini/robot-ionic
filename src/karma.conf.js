@@ -18,7 +18,7 @@ module.exports = function (config) {
         },
         reporters: ['progress', 'kjhtml', 'coverage'],
         preprocessors: { 'src/**/*.js': ['coverage'] },
-        coverageReporter: { type: 'html', dir: 'coverage/' },
+        coverageReporter: { type: 'html', dir: 'coverage/frontend/' },
         port: 9876, colors: true, logLevel: config.LOG_INFO, autoWatch: true,
         browsers: ['Chrome'],
         customLaunchers: {
