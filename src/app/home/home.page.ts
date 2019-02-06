@@ -21,6 +21,7 @@ export class HomePage {
     }
 
     public run() {
+
         this.command = this.command.toLocaleUpperCase();
 
         if (!this.validateCommand()) {
@@ -34,6 +35,7 @@ export class HomePage {
     }
 
     private executeCommand() {
+
         this.readReport();
         this.readPlace();
         this.readRotate();
@@ -41,8 +43,8 @@ export class HomePage {
     }
 
     private readReport() {
-        if (this.command.substr(0, 5) === 'PLACE' && this.place()) {
-            this.addToReport(this.command);
+        if (this.command.substr(0, 6) === 'REPORT') {
+            this.addToReport('=> Output:' + this.robot.x + ',' + this.robot.y + ',' + this.robot.facing);
         }
     }
 
