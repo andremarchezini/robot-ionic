@@ -50,7 +50,7 @@ jobs:
             npm test
             # ./tmp/cc-test-reporter format-coverage --debug -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
 
-      - run: ls coverage
+      - run: ls coverage/frontend
       - persist_to_workspace:
           root: tmp
           paths: 
