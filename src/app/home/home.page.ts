@@ -35,7 +35,6 @@ export class HomePage {
     }
 
     private executeCommand() {
-
         this.readReport();
         this.readPlace();
         this.readRotate();
@@ -56,19 +55,21 @@ export class HomePage {
     }
 
     private readRotate() {
-        let executed = false;
-        if (this.command.substr(0, 4) === 'LEFT') {
-            this.robot.rotate('LEFT');
-            executed = true;
-        }
-
-        if (this.command.substr(0, 5) === 'RIGHT') {
-            this.robot.rotate('RIGHT');
-            executed = true;
-        }
-
-        if (executed) {
+        const side = this.clearRotateCommand();
+        if (side) {
+            this.robot.rotate(side);
             this.addToReport(this.command);
+        }
+    }
+
+    private clearRotateCommand() {
+        if (this.command.substr(0, 4) === 'LEFT' || this.command.substr(0, 5) === 'RIGHT') {
+            switch (this.command.substr(0, 1)) {
+                case 'L': return 'LEFT';
+                case 'R': return 'RIGHT';
+            }
+        } else {
+            return null;
         }
     }
 
@@ -77,16 +78,14 @@ export class HomePage {
             this.robot.move();
             this.addToReport(this.command);
         }
-
     }
+
     // Validates the command entered by the user
     public validateCommand(): boolean {
-
         if (!this.checkPlaceCommand() || !this.checkUnrecognisedCommands()
             || !this.checkMoveCommand() || !this.checkElementsPlaceCommand()) {
             return false;
         }
-
         return true;
     }
 
