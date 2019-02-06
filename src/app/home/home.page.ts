@@ -58,12 +58,12 @@ export class HomePage {
     private readRotate() {
         let executed = false;
         if (this.command.substr(0, 4) === 'LEFT') {
-            this.robot.rotateLeft();
+            this.robot.rotate('LEFT');
             executed = true;
         }
 
         if (this.command.substr(0, 5) === 'RIGHT') {
-            this.robot.rotateRight();
+            this.robot.rotate('RIGHT');
             executed = true;
         }
 
