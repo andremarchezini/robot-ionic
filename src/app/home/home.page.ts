@@ -21,7 +21,6 @@ export class HomePage {
     }
 
     public run() {
-
         this.command = this.command.toLocaleUpperCase();
 
         if (!this.validateCommand()) {
@@ -35,12 +34,27 @@ export class HomePage {
     }
 
     private executeCommand() {
-        let executed = false;
+        this.readReport();
+        this.readPlace();
+        this.readRotate();
+        this.readMove();
+    }
 
+    private readReport() {
         if (this.command.substr(0, 5) === 'PLACE' && this.place()) {
-            executed = true;
+            this.addToReport(this.command);
         }
+    }
 
+
+    private readPlace() {
+        if (this.command.substr(0, 5) === 'PLACE' && this.place()) {
+            this.addToReport(this.command);
+        }
+    }
+
+    private readRotate() {
+        let executed = false;
         if (this.command.substr(0, 4) === 'LEFT') {
             this.robot.rotateLeft();
             executed = true;
@@ -51,22 +65,18 @@ export class HomePage {
             executed = true;
         }
 
-        if (this.command.substr(0, 4) === 'MOVE') {
-            this.robot.move();
-            executed = true;
-        }
-
         if (executed) {
             this.addToReport(this.command);
         }
+    }
 
-        if (this.command.substr(0, 6) === 'REPORT') {
-            this.robot.report();
-            this.addToReport('=> Output:' + this.robot.x + ',' + this.robot.y + ',' + this.robot.facing);
+    private readMove() {
+        if (this.command.substr(0, 4) === 'MOVE') {
+            this.robot.move();
+            this.addToReport(this.command);
         }
 
     }
-
     // Validates the command entered by the user
     public validateCommand(): boolean {
 
