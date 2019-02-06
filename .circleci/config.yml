@@ -48,10 +48,10 @@ jobs:
           name: Run tests
           command: |
             npm test
-            # ./tmp/cc-test-reporter format-coverage --debug -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
-
+           
       - run: ls coverage/frontend
       - run: ls /home/circleci/repo
+      - run: ./tmp/cc-test-reporter format-coverage --debug -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
       - persist_to_workspace:
           root: tmp
           paths: 
