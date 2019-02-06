@@ -3,23 +3,27 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.9-browsers
 jobs:
-  build:
-    environment:
-      CC_TEST_REPORTER_ID: db8357071dbb10baa664dc536130ee05a50dda77a8e820664458ccd76ed4cd9d
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.9-browsers
-        # environment:
-        #   CHROME_BIN: "/usr/bin/google-chrome"
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
+  build: 
+    <<: *defaults
+    steps:
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+  frontend-tests:
+    <<: *defaults
     working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -32,24 +36,47 @@ jobs:
 
       - run: npm install
 
-      - run: npm rebuild node-sass
+      - run: npm rebuild node-sass 
 
-      # - run: npm install -g karma
-        
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      # - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-      # - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+
+      - run: 
+          name: Run tests
+          command: |
+            npm test
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
+
+      - persist_to_workspace:
+          root: tmp
+          paths: 
+            - codeclimate.frontend.json
+
+  upload-coverage:
+    <<: *defaults
+    environment: 
+      - CC_TEST_REPORTER_ID: db8357071dbb10baa664dc536130ee05a50dda77a8e820664458ccd76ed4cd9d
+    steps:
+      - attach_workspace:
+          at: ~/repo/tmp
+     
       - run:
-          name: Run unit tests with karma
-          command: npm test
-          # notify Code Climate of a pending test report using `before-build`
-            ./cc-test-reporter before-build
-            sudo vendor/bin/phpunit --coverage-clover clover.xml
-          # upload test report to Code Climate using `after-build`
-            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
-      #- run: npm test
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - frontend-tests: 
+          requires: 
+             - build
+      - upload-coverage:
+          requires:
+             - frontend-tests
