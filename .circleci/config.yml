@@ -29,26 +29,26 @@ jobs:
       - attach_workspace:
           at: ~/repo/tmp
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ checksum "package.json" }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-dependencies-
 
       - run: npm install
 
       - run: npm rebuild node-sass 
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: 
           name: Run tests
           command: |
             npm test
-            ./tmp/cc-test-reporter format-coverage --debug -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
 
       - persist_to_workspace:
           root: tmp
