@@ -50,12 +50,9 @@ export class Robot {
 
     private setNewDirection(side, index) {
         let new_index = null;
-        if (side === 'RIGHT' && index === 3) {
-            new_index = 0;
-        }
-        if (side === 'LEFT' && index === 0) {
-            new_index = 3;
-        }
+
+        new_index = this.rotateLimit90(side, index);
+
         if ((side === 'RIGHT' && index !== 3) || (side === 'LEFT' && index !== 0)) {
             new_index = this.rotate90(side, index);
         }
@@ -68,6 +65,15 @@ export class Robot {
         }
         if (side === 'LEFT') {
             return index - 1;
+        }
+    }
+
+    private rotateLimit90(side, index) {
+        if (side === 'RIGHT' && index === 3) {
+            return 0;
+        }
+        if (side === 'LEFT' && index === 0) {
+            return 3;
         }
     }
 
