@@ -1,0 +1,13 @@
+exclude_patterns:
+- "node_modules/"
+- "coverage/"
+- "www/"
+- "tmp/"
+- "temp/"
+- ".vscode/"
+- "e2e/"
+- ".circleci/"
+- "platforms/"
+- "plugins/"
+- "plugins/android.json"
+- "plugins/ios.json"
