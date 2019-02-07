@@ -1,10 +1,8 @@
-console.log('coverage');
-
 var fs = require('fs');
 var COVERAGE_FILE = 'coverage/frontend/index.html';
 var results = []
 var min_statementes = 100;
-var min_branches = 98;
+var min_branches = 100;
 var min_functions = 100;
 var min_lines = 100;
 
@@ -53,16 +51,16 @@ function checkCoverageValues() {
         var functions = results[2];
         var lines = results[3];
         if (statements < min_statementes) {
-            return reject('Statementes coverage do not suffice ' + statements + "%");
+            return reject('Statementes coverage does not suffice ' + statements + "%");
         }
         if (branches < min_branches) {
-            return reject('Branches coverage do not suffice ' + statements + "%");
+            return reject('Branches coverage does not suffice ' + statements + "%");
         }
         if (functions < min_functions) {
-            return reject('Functions coverage do not suffice ' + statements + "%");
+            return reject('Functions coverage does not suffice ' + statements + "%");
         }
         if (lines < min_lines) {
-            return reject('Lines coverage do not suffice ' + statements + "%");
+            return reject('Lines coverage does not suffice ' + statements + "%");
         }
 
         console.log("\n\n************************************************\n");
