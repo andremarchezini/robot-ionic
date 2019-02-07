@@ -2,7 +2,7 @@ var fs = require('fs');
 var COVERAGE_FILE = 'coverage/frontend/index.html';
 var results = []
 var min_statementes = 100;
-var min_branches = 98;
+var min_branches = 100;
 var min_functions = 100;
 var min_lines = 100;
 
