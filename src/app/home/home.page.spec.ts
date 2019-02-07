@@ -182,4 +182,48 @@ describe('HomePage', () => {
         expect(component.robot.x === 3 && component.robot.y === 3 && component.robot.facing === FacesEnum.NORTH).toBeTruthy();
     });
 
+    it('Generic scenario 4', () => {
+        component.command = 'PLACE 1,1,SOUTH';
+        component.run();
+        component.command = 'MOVE';
+        component.run();
+        component.command = 'REPORT';
+        component.run();
+        expect(component.robot.x === 1 && component.robot.y === 0 && component.robot.facing === FacesEnum.SOUTH).toBeTruthy();
+    });
+
+    it('Generic scenario 5', () => {
+        component.command = 'PLACE 1,1,WEST';
+        component.run();
+        component.command = 'RIGHT';
+        component.run();
+        expect(component.robot.x === 1 && component.robot.y === 1 && component.robot.facing === FacesEnum.NORTH).toBeTruthy();
+    });
+
+    it('Unrecognised command', () => {
+        component.command = 'PLACE 1,2,EAST';
+        component.run();
+        component.command = 'ESC';
+        expect(component.checkUnrecognisedCommands()).toBeFalsy();
+    });
+
+    it('Unrecognised X', () => {
+        component.command = 'PLACE BB,1,EAST';
+        expect(component.validateCommand()).toBeFalsy();
+    });
+
+    it('Unrecognised Y', () => {
+        component.command = 'PLACE 1,BB,EAST';
+        expect(component.validateCommand()).toBeFalsy();
+    });
+
+    it('Unrecognised Direction', () => {
+        component.command = 'PLACE 1,1,SOUTHEAST';
+        expect(component.validateCommand()).toBeFalsy();
+    });
+
+    it('Place without space', () => {
+        component.command = 'PLACE1,1,SOUTHEAST';
+        expect(component.validateCommand()).toBeFalsy();
+    });
 });

@@ -89,6 +89,19 @@ export class HomePage {
         return true;
     }
 
+    public checkUnrecognisedCommands() {
+        // If command is not recognised
+        if (this.command.substr(0, 5) !== 'PLACE' &&
+            this.command.substr(0, 4) !== 'MOVE' &&
+            this.command.substr(0, 4) !== 'LEFT' &&
+            this.command.substr(0, 5) !== 'RIGHT' &&
+            this.command.substr(0, 6) !== 'REPORT') {
+            this.addToReport('Not recognised: ' + this.command);
+            return false;
+        }
+        return true;
+    }
+
     private place() {
         const position_elements = this.breakDownPlace();
         const x = parseInt(position_elements[0], 10);
@@ -114,18 +127,7 @@ export class HomePage {
         return true;
     }
 
-    private checkUnrecognisedCommands() {
-        // If command is not recognised
-        if (this.command.substr(0, 5) !== 'PLACE' &&
-            this.command.substr(0, 4) !== 'MOVE' &&
-            this.command.substr(0, 4) !== 'LEFT' &&
-            this.command.substr(0, 5) !== 'RIGHT' &&
-            this.command.substr(0, 6) !== 'REPORT') {
-            this.addToReport('Not recognised: ' + this.command);
-            return false;
-        }
-        return true;
-    }
+
 
     private checkMoveCommand() {
         // If first command is not PLACE ignore
