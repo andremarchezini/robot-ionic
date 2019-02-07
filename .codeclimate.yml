@@ -11,3 +11,4 @@ exclude_patterns:
 - "plugins/"
 - "plugins/android.json"
 - "plugins/ios.json"
+- "src/app/*/*.spec.ts"
