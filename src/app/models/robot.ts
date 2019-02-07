@@ -23,7 +23,7 @@ export class Robot {
                 break;
             }
             case FacesEnum.SOUTH: {
-                this.y++;
+                this.y--;
                 break;
             }
             case FacesEnum.WEST: {
@@ -148,7 +148,7 @@ export class Robot {
                 break;
             }
             case FacesEnum.SOUTH: {
-                simulated_unit = this.y + 1;
+                simulated_unit = this.y - 1;
                 break;
             }
             case FacesEnum.WEST: {
